@@ -42,7 +42,9 @@ public class AlwaysEnabledModule implements Listenable
                 final TextComponentString component = (TextComponentString) packet.getChatComponent();
 
                 // if (component.getFormattedText().toLowerCase().contains("polymer") || component.getFormattedText().toLowerCase().contains("veteranhack"))
-                // p_Event.cancel();
+
+                    // p_Event.cancel();
+                    
                 // 22 Aug 2020 , Beepjay: I got rid of these lines of code.... who needs
             }
         }
