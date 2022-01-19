@@ -1,5 +1,7 @@
 package me.ionar.salhack.module.movement;
 
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerDigging.Action;
 import net.minecraft.util.EnumFacing;
@@ -78,10 +80,15 @@ public final class NoSlowModule extends Module
                 }
             }
 
+            if(mc.currentScreen instanceof GuiChat) {
+                return;
+            }
+
             mc.player.movementInput.moveStrafe = 0.0F;
             mc.player.movementInput.moveForward = 0.0F;
-            
+
             KeyBinding.setKeyBindState(mc.gameSettings.keyBindForward.getKeyCode(), Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode()));
+
             if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode()))
             {
                 ++mc.player.movementInput.moveForward;

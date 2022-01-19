@@ -18,6 +18,7 @@ import me.ionar.salhack.module.misc.*;
 import me.ionar.salhack.module.movement.*;
 import me.ionar.salhack.module.render.*;
 import me.ionar.salhack.module.schematica.*;
+import me.ionar.salhack.module.chat.*;
 import me.ionar.salhack.module.ui.*;
 import me.ionar.salhack.module.world.*;
 import me.ionar.salhack.preset.Preset;
@@ -39,7 +40,7 @@ public class ModuleManager
     public ArrayList<Module> Mods = new ArrayList<Module>();
     private ArrayList<Module> ArrayListAnimations = new ArrayList<Module>();
     private KeybindsModule Keybinds = null;
-    
+
     public void Init()
     {
         /// Combat
@@ -58,42 +59,36 @@ public class ModuleManager
         Add(new CriticalsModule());
         Add(new HoleFillerModule());
         Add(new KillAuraModule());
-        Add(new OffhandModule());
-        Add(new ReachModule());
+        Add(new MiddleClickPearlModule());
+        Add(new OldAutoCrystalRewrite());
         Add(new SelfTrapModule());
         Add(new SurroundModule());
         Add(new VelocityModule());
-        
+
         /// Exploit
-        Add(new AntiHungerModule());
-        Add(new CoordTPExploitModule());
         Add(new CrashExploitModule());
         Add(new EntityDesyncModule());
+        Add(new GhostModule());
         Add(new LiquidInteractModule());
         Add(new MountBypassModule());
+        Add(new NoInteractModule());
         Add(new NoMiningTrace());
         Add(new NewChunksModule());
         Add(new PacketCancellerModule());
         Add(new PacketFlyModule());
         Add(new PortalGodModeModule());
-        Add(new SwingModule());
 
         /// Misc
         Add(new AntiAFKModule());
-        Add(new AutoBonemealModule());
+        Add(new AutoDuperModule());
         Add(new AutoEatModule());
-        Add(new AutoDyeModule());
-        Add(new AutoFarmlandModule());
         Add(new AutoMendArmorModule());
         Add(new AutoMountModule());
         Add(new AutoReconnectModule());
-        Add(new AutoShearModule());
-        Add(new AutoShovelPathModule());
+        Add(new AutoRespawnModule());
         Add(new AutoSignModule());
         Add(new AutoTameModule());
-        Add(new AutoTendModule());
         Add(new BuildHeightModule());
-        Add(new ChatModificationsModule());
         Add(new ChatNotifierModule());
         Add(new ChestStealerModule());
         Add(new ChestSwapModule());
@@ -102,49 +97,50 @@ public class ModuleManager
         Add(new FriendsModule());
         Add(new GlobalLocationModule());
         Add(new HotbarCacheModule());
+        Add(new ManualDupeModule());
         Add(new MiddleClickFriendsModule());
-        Add(new RetardChatModule());
         Add(new StopWatchModule());
         Add(new TotemPopNotifierModule());
         Add(new VisualRangeModule());
         Add(new XCarryModule());
-        
+
         /// Movement
         Add(new AntiLevitationModule());
         Add(new AutoWalkModule());
         Add(new BlinkModule());
         Add(new ElytraFlyModule());
         Add(new EntityControlModule());
+        Add(new EntitySpeedModule());
         Add(new FlightModule());
+        Add(new GlideModule());
+        Add(new HorseJump());
+        Add(new JesusModule());
         Add(new NoFallModule());
         Add(new NoRotateModule());
         Add(new NoSlowModule());
-        Add(new JesusModule());
+        Add(new ParkourJump());
         Add(new SafeWalkModule());
         Add(new SneakModule());
         Add(new SpeedModule());
         Add(new SprintModule());
         Add(new StepModule());
         Add(new YawModule());
-        
+
         /// Render
         Add(new AntiFog());
         Add(new BlockHighlightModule());
         Add(new BreakHighlightModule());
         Add(new BrightnessModule());
-        Add(new ChunkAnimator());
         Add(new CityESPModule());
-        Add(new ContainerPreviewModule());
         Add(new EntityESPModule());
-        Add(new FarmESPModule());
         Add(new FreecamModule());
-        Add(new HandProgressModule());
         Add(new HoleESPModule());
+        Add(new MobOwnerModule());
         Add(new NametagsModule());
-        Add(new NoBobModule());
         Add(new NoRenderModule());
         Add(new ShulkerPreviewModule());
         Add(new SkeletonModule());
+        Add(new SmallShield());
         Add(new StorageESPModule());
         Add(new TracersModule());
         Add(new TrajectoriesModule());
@@ -153,6 +149,9 @@ public class ModuleManager
         Add(new WaypointsModule());
 
         /// UI
+        Add(new ChestModule());
+        Add(new DupeModule());
+
         Add(new ColorsModule());
         Add(new ConsoleModule());
         Add(new ClickGuiModule());
@@ -160,16 +159,17 @@ public class ModuleManager
         Add(new HudModule());
         Add(Keybinds = new KeybindsModule());
         Add(new ReliantChatModule());
-        
+
         /// World
         Add(new AutoBuilderModule());
+        Add(new AutoHighwayBuilder());
         Add(new AutoNameTagModule());
         Add(new AutoToolModule());
         Add(new AutoTunnelModule());
         Add(new AutoWitherModule());
+        Add(new CoordsSpooferModule());
         Add(new EnderChestFarmer());
         Add(new FastPlaceModule());
-        Add(new LawnmowerModule());
         Add(new NoGlitchBlocksModule());
         Add(new NoWeatherModule());
         Add(new NukerModule());
@@ -179,22 +179,27 @@ public class ModuleManager
         Add(new StashLoggerModule());
         Add(new TimerModule());
         Add(new TorchAnnihilatorModule());
-        
+
         /// Schematica
         Add(new PrinterModule());
         Add(new PrinterBypassModule());
         
+        // Chat
+        Add(new ChatModificationsModule());
+        Add(new MessageModifierModule());
+        Add(new PopBobSexDupeModule());
+
         LoadExternalModules();
-        
+
         Mods.sort((p_Mod1, p_Mod2) -> p_Mod1.getDisplayName().compareTo(p_Mod2.getDisplayName()));
 
         final Preset preset = PresetsManager.Get().getActivePreset();
-        
+
         Mods.forEach(mod ->
         {
             preset.initValuesForMod(mod);
         });
-        
+
         Mods.forEach(mod ->
         {
             mod.init();
@@ -225,7 +230,7 @@ public class ModuleManager
             e.printStackTrace();
         }
     }
-    
+
     public final List<Module> GetModuleList(ModuleType p_Type)
     {
         List<Module> list = new ArrayList<>();
@@ -251,7 +256,7 @@ public class ModuleManager
     {
         if (string == null || string.isEmpty() || string.equalsIgnoreCase("NONE"))
             return;
-        
+
         Mods.forEach(p_Mod ->
         {
             if (p_Mod.IsKeyPressed(string))
@@ -268,13 +273,13 @@ public class ModuleManager
            if (p_Mod.getClass() == p_Class)
                return p_Mod;
         });*/
-        
+
         for (Module l_Mod : Mods)
         {
             if (l_Mod.getClass() == p_Class)
                 return l_Mod;
         }
-        
+
         SalHackMod.log.error("Could not find the class " + p_Class.getName() + " in Mods list");
         return null;
     }
@@ -286,10 +291,10 @@ public class ModuleManager
             if (l_Mod.GetArrayListDisplayName().toLowerCase().startsWith(p_String.toLowerCase()))
                 return l_Mod;
         }
-        
+
         return null;
     }
-    
+
     public void OnModEnable(Module p_Mod)
     {
         ArrayListAnimations.remove(p_Mod);
@@ -302,7 +307,7 @@ public class ModuleManager
             final float dif = RenderUtil.getStringWidth(secondName) - RenderUtil.getStringWidth(firstName);
             return dif != 0 ? (int) dif : secondName.compareTo(firstName);
         };
-        
+
         ArrayListAnimations = (ArrayList<Module>) ArrayListAnimations.stream()
         .sorted(comparator)
         .collect(Collectors.toList());
@@ -312,9 +317,9 @@ public class ModuleManager
     {
         if (ArrayListAnimations.isEmpty())
             return;
-        
+
         Module l_Mod = ArrayListAnimations.get(0);
-        
+
         if ((l_Mod.RemainingXAnimation -= (RenderUtil.getStringWidth(l_Mod.GetFullArrayListDisplayName()) / 10)) <= 0)
         {
             ArrayListAnimations.remove(l_Mod);
@@ -330,22 +335,22 @@ public class ModuleManager
             return true;
         if (GuiScreen.isShiftKeyDown() && !Keybinds.Shift.getValue())
             return true;
-        
+
         return false;
     }
-    
+
     public void LoadExternalModules()
     {
         // from seppuku
         try
         {
             final File dir = new File("SalHack/CustomMods");
-            
+
             for (Class newClass : ReflectionUtil.getClassesEx(dir.getPath()))
             {
                 if (newClass == null)
                     continue;
-                
+
                 // if we have found a class and the class inherits "Module"
                 if (Module.class.isAssignableFrom(newClass))
                 {
@@ -358,7 +363,7 @@ public class ModuleManager
                         Add(module);
                     }
                 }
-                
+
             }
         } catch (Exception e)
         {

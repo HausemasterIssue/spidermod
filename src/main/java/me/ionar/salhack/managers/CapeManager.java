@@ -30,7 +30,7 @@ public class CapeManager implements Listenable
 
     private HashMap<String, ResourceLocation> CapeUsers = new HashMap<String, ResourceLocation>();
     private HashMap<String, ResourceLocation> Capes = new HashMap<String, ResourceLocation>(); /// < Only used at startup
-    
+
     public void LoadCapes()
     {
         try
@@ -42,7 +42,7 @@ public class CapeManager implements Listenable
             String l_Line;
 
             System.out.println("Downloading cape imgs");
-            l_URL = new URL("http://salhack.com/cape.txt");
+            l_URL = new URL("https://raw.githubusercontent.com/CreepyOrb924/creepy-salhack-assets/master/assets/capes/cape.txt");
             l_Connection = l_URL.openConnection();
             l_Connection.setRequestProperty("User-Agent",
                     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
@@ -56,11 +56,11 @@ public class CapeManager implements Listenable
                 if (l_Split.length == 2)
                     DownloadCapeFromLocationWithName(l_Split[0], l_Split[1]);
             }
-            
+
             l_Reader.close();
 
             System.out.println("Loading capes");
-            l_URL = new URL("http://salhack.com/capes.txt");
+            l_URL = new URL("https://raw.githubusercontent.com/CreepyOrb924/creepy-salhack-assets/master/assets/capes/capes.txt");
             l_Connection = l_URL.openConnection();
             l_Connection.setRequestProperty("User-Agent",
                     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
@@ -69,7 +69,7 @@ public class CapeManager implements Listenable
 
             while ((l_Line = l_Reader.readLine()) != null)
                 ProcessCapeString(l_Line);
-            
+
             l_Reader.close();
         }
 
@@ -117,10 +117,10 @@ public class CapeManager implements Listenable
         if (Wrapper.GetMC().renderEngine == null)
             return;
 
-        if (CapeUsers.containsKey(p_Event.Player.getName()))
+        if (CapeUsers.containsKey(p_Event.Player.getUniqueID().toString())); //thanks Seppuku
         {
             p_Event.cancel();
-            p_Event.SetResourceLocation(CapeUsers.get(p_Event.Player.getName()));
+            p_Event.SetResourceLocation(CapeUsers.get(p_Event.Player.getUniqueID().toString()));
         }
     });
 

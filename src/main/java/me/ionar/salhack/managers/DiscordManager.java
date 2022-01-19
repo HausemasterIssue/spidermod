@@ -23,7 +23,7 @@ public class DiscordManager
         handlers.ready = (user) -> System.out.println("Ready!");
         lib.Discord_Initialize(applicationId, handlers, true, steamId);
         DiscordRichPresence presence = new DiscordRichPresence();
-        presence.startTimestamp = System.currentTimeMillis() / 1000; // epoch second
+        presence.startTimestamp = System.currentTimeMillis() / 2000; // epoch second
         lib.Discord_UpdatePresence(presence);
         presence.largeImageKey = "image";
         presence.largeImageText = "http://salhack.com/";

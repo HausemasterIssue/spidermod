@@ -6,9 +6,10 @@ import me.ionar.salhack.module.Value;
 import me.ionar.salhack.util.Timer;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
-import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
-import net.minecraft.client.gui.inventory.GuiShulkerBox;
+import net.minecraft.client.gui.GuiEnchantment;
+import net.minecraft.client.gui.GuiMerchant;
+import net.minecraft.client.gui.GuiRepair;
+import net.minecraft.client.gui.inventory.*;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemShulkerBox;
@@ -176,4 +177,19 @@ public class ChestStealerModule extends Module
             }
         }
     }
+
+    public boolean isContainerOpen() {
+        return mc.player.openContainer != null && isValidGui();
+    }
+
+    public boolean isValidGui() {
+        return !(mc.currentScreen instanceof GuiEnchantment
+                && mc.currentScreen instanceof GuiMerchant
+                && mc.currentScreen instanceof GuiRepair
+                && mc.currentScreen instanceof GuiBeacon
+                && mc.currentScreen instanceof GuiCrafting
+                && mc.currentScreen instanceof GuiContainerCreative
+                && mc.currentScreen instanceof GuiInventory);
+    }
+
 }

@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 
 public class FakePlayer extends Module
 {
-    public static final Value<String> name = new Value<>("Name", new String[] {"name"}, "Name of the fake player", "jared2013");
+    public static final Value<String> name = new Value<>("Name", new String[] {"name"}, "Name of the fake player", "popbob");
 
     public FakePlayer()
     {
@@ -50,6 +50,8 @@ public class FakePlayer extends Module
 
         _fakePlayer.copyLocationAndAnglesFrom(mc.player);
         _fakePlayer.rotationYawHead = mc.player.rotationYawHead;
+        // Thanks to Phobos for the idea of copying your player invetory.
+        _fakePlayer.inventory.copyInventory(mc.player.inventory);
         mc.world.addEntityToWorld(-100, _fakePlayer);
     }
 

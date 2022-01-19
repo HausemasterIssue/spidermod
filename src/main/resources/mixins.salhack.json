@@ -34,6 +34,10 @@
     "MixinEntityPig",
     "MixinEntityLlama",
     "MixinGuiNewChat",
-    "MixinModelPlayer"
+    "MixinModelPlayer",
+    "MixinGuiContainer",
+    "MixinGuiMainMenu",
+    "MixinTileEntityBeaconRenderer",
+    "MixinTileEntityEnchantmentTableRenderer"
   ]
 }

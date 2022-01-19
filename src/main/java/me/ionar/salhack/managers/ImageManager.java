@@ -48,8 +48,6 @@ public class ImageManager
     
     public void Load()
     {
-        LoadImage("BloodOverlay");
-        LoadImage("RareFrame");
         LoadImage("OutlinedEllipse");
         LoadImage("Arrow");
         LoadImage("blockimg");
@@ -61,6 +59,8 @@ public class ImageManager
         LoadImage("SalHackWatermark");
         LoadImage("Shield");
         LoadImage("skull");
+        LoadImage("particles");
+        LoadImage("Title");
     }
     
     public void LoadImage(String p_Img)

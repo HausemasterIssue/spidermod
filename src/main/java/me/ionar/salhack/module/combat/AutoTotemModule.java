@@ -2,24 +2,23 @@ package me.ionar.salhack.module.combat;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.ionar.salhack.events.player.EventPlayerTravel;
 import me.ionar.salhack.events.player.EventPlayerUpdate;
 import me.ionar.salhack.gui.SalGuiScreen;
 import me.ionar.salhack.main.SalHack;
-import me.ionar.salhack.managers.ModuleManager;
+import me.ionar.salhack.managers.FriendManager;
 import me.ionar.salhack.module.Module;
 import me.ionar.salhack.module.Value;
 import me.ionar.salhack.util.entity.PlayerUtil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSword;
-import net.minecraftforge.client.event.GuiScreenEvent.PotionShiftEvent;
+
 /**
  * Author Seth 4/30/2019 @ 3:37 AM.
  * Updates by SalHack 2-1-20 (Ionar)
@@ -45,6 +44,7 @@ public final class AutoTotemModule extends Module
         Pearl,
         Chorus,
         Strength,
+        Shield,
     }
     
     public AutoTotemModule()
@@ -52,8 +52,6 @@ public final class AutoTotemModule extends Module
         super("AutoTotem", new String[]
         { "Totem" }, "Automatically places a totem of undying in your offhand", "NONE", 0xDADB24, ModuleType.COMBAT);
     }
-    
-    private OffhandModule OffhandMod = null;
 
     @Override
     public String getMetaData()
@@ -111,9 +109,9 @@ public final class AutoTotemModule extends Module
     @EventHandler
     private Listener<EventPlayerUpdate> OnPlayerUpdate = new Listener<>(p_Event ->
     {
-        if (mc.currentScreen != null && (!(mc.currentScreen instanceof GuiInventory) && !(mc.currentScreen instanceof SalGuiScreen)) || OffhandMod.isEnabled())
+        if (mc.currentScreen != null && (!(mc.currentScreen instanceof GuiInventory) && !(mc.currentScreen instanceof SalGuiScreen)))
             return;
-        
+
         if (!mc.player.getHeldItemMainhand().isEmpty())
         {
             if (health.getValue() <= PlayerUtil.GetHealthWithAbsorption() && mc.player.getHeldItemMainhand().getItem() instanceof ItemSword && OffhandStrNoStrSword.getValue() && !mc.player.isPotionActive(MobEffects.STRENGTH))
@@ -131,22 +129,23 @@ public final class AutoTotemModule extends Module
         }
         
         /// First check health, most important as we don't want to die for no reason.
-        if (health.getValue() > PlayerUtil.GetHealthWithAbsorption() || Mode.getValue() == AutoTotemMode.Totem || (TotemOnElytra.getValue() && mc.player.isElytraFlying()) || (mc.player.fallDistance >= FallDistance.getValue() && !mc.player.isElytraFlying()))
+        if (health.getValue() > PlayerUtil.GetHealthWithAbsorption() || Mode.getValue() == AutoTotemMode.Totem || (TotemOnElytra.getValue() && mc.player.isElytraFlying()) || (mc.player.fallDistance >= FallDistance.getValue() && !mc.player.isElytraFlying()) || noNearbyPlayers())
         {
             SwitchOffHandIfNeed(AutoTotemMode.Totem);
             return;
         }
         
         /// If we meet the required health
+
         SwitchOffHandIfNeed(Mode.getValue());
+
     });
     
     @Override
     public void onEnable()
     {
         super.onEnable();
-        
-        OffhandMod = (OffhandModule)ModuleManager.Get().GetMod(OffhandModule.class);
+
     }
     
     public Item GetItemFromModeVal(AutoTotemMode p_Val)
@@ -163,6 +162,8 @@ public final class AutoTotemModule extends Module
                 return Items.CHORUS_FRUIT;
             case Strength:
                 return Items.POTIONITEM;
+            case Shield:
+                return Items.SHIELD;
             default:
                 break;
         }
@@ -184,10 +185,34 @@ public final class AutoTotemModule extends Module
                 return "Chorus";
             case Strength:
                 return "Strength";
+            case Shield:
+                return "Shield";
             default:
                 break;
         }
         
         return "Totem";
+    }
+
+    private boolean noNearbyPlayers() {
+        if (AutoTotemMode.Crystal == Mode.getValue() && mc.world.playerEntities.stream().noneMatch(e -> e != mc.player && isValidTarget(e))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isValidTarget(Entity p_Entity)
+    {
+        if (FriendManager.Get().IsFriend(p_Entity)) {
+            return false;
+        }
+
+        if (p_Entity == mc.player) {
+            return false;
+        }
+        if (mc.player.getDistance(p_Entity) > 15) {
+            return false;
+        }
+        return true;
     }
 }

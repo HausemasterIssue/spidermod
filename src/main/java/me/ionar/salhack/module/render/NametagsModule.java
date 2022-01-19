@@ -59,8 +59,7 @@ public class NametagsModule extends Module
     @EventHandler
     private Listener<EventRenderGameOverlay> OnRenderGameOverlay = new Listener<>(p_Event ->
     {
-        mc.world.loadedEntityList.stream().filter(EntityUtil::isLiving).filter(entity -> !EntityUtil.isFakeLocalPlayer(entity))
-                .filter(entity -> (entity instanceof EntityPlayer && mc.player != entity)).forEach(e ->
+        mc.world.loadedEntityList.stream().filter(EntityUtil::isLiving).filter(entity -> (entity instanceof EntityPlayer && mc.player != entity)).forEach(e ->
                 {
                     RenderNameTagFor((EntityPlayer)e, p_Event);
                 });
@@ -175,49 +174,6 @@ public class NametagsModule extends Module
                                     stringsToDraw.add(String.format("%s", (int)l_ArmorBarPct + "%"));
                                 }
                                 int y = 0;
-
-                                if (stack.getEnchantmentTagList() != null)
-                                {
-                                    final NBTTagList tags = stack.getEnchantmentTagList();
-                                    for (int i = 0; i < tags.tagCount(); i++)
-                                    {
-                                        final NBTTagCompound tagCompound = tags.getCompoundTagAt(i);
-                                        if (tagCompound != null && Enchantment
-                                                .getEnchantmentByID(tagCompound.getByte("id")) != null)
-                                        {
-                                            final Enchantment enchantment = Enchantment
-                                                    .getEnchantmentByID(tagCompound.getShort("id"));
-                                            final short lvl = tagCompound.getShort("lvl");
-                                            if (enchantment != null)
-                                            {
-                                                String ench = "";
-                                                if (enchantment.isCurse())
-                                                {
-                                                    ench = ChatFormatting.RED
-                                                            + enchantment.getTranslatedName(lvl)
-                                                                    .substring(11).substring(0, 2)
-                                                            + ChatFormatting.GRAY + lvl;
-                                                }
-                                                else
-                                                {
-                                                    ench = enchantment.getTranslatedName(lvl).substring(0,
-                                                            2) + lvl;
-                                                }
-                                                stringsToDraw.add(ench);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                // Enchanted gapple
-                                if (item == Items.GOLDEN_APPLE)
-                                {
-                                    if (stack.getItemDamage() == 1)
-                                    {
-                                        stringsToDraw.add(ChatFormatting.DARK_RED + "God");
-                                    }
-                                }
-
                                 for (String string : stringsToDraw)
                                 {
                                     GlStateManager.pushMatrix();

@@ -1,19 +1,7 @@
 package me.ionar.salhack.main;
 
 import me.ionar.salhack.SalHackMod;
-import me.ionar.salhack.managers.CapeManager;
-import me.ionar.salhack.managers.CommandManager;
-import me.ionar.salhack.managers.DirectoryManager;
-import me.ionar.salhack.managers.DiscordManager;
-import me.ionar.salhack.managers.FontManager;
-import me.ionar.salhack.managers.FriendManager;
-import me.ionar.salhack.managers.HudManager;
-import me.ionar.salhack.managers.ImageManager;
-import me.ionar.salhack.managers.ModuleManager;
-import me.ionar.salhack.managers.NotificationManager;
-import me.ionar.salhack.managers.PresetsManager;
-import me.ionar.salhack.managers.TickRateManager;
-import me.ionar.salhack.managers.UUIDManager;
+import me.ionar.salhack.managers.*;
 import me.ionar.salhack.waypoints.WaypointManager;
 import net.minecraft.util.text.TextComponentString;
 
@@ -34,6 +22,7 @@ public class SalHack
     private static AlwaysEnabledModule m_AlwaysEnabledMod;
     private static PresetsManager m_PresetsManager = new PresetsManager();
     private static UUIDManager m_UUIDManager = new UUIDManager();
+    private static UpdateManager m_Updatemanager = new UpdateManager();
 
     public static void Init()
     {
@@ -42,14 +31,14 @@ public class SalHack
 
         /// load before mods
         m_FontManager.Load();
-        m_PresetsManager.LoadPresets(); // must be before module init 
+        m_PresetsManager.LoadPresets(); // must be before module init
         m_ModuleManager.Init();
         m_HudManager.Init();
         m_CommandManager.InitalizeCommands();
-        
+
         m_ImageManager.Load();
         m_FriendManager.Load();
-        
+
         /// features people can't turn off
         m_AlwaysEnabledMod = new AlwaysEnabledModule();
         m_AlwaysEnabledMod.init();
@@ -102,7 +91,7 @@ public class SalHack
     {
         return m_CommandManager;
     }
-    
+
     public static TickRateManager GetTickRateManager()
     {
         return m_TickRateManager;
@@ -122,7 +111,7 @@ public class SalHack
     {
         return m_CapeManager;
     }
-    
+
     public static PresetsManager GetPresetsManager()
     {
         return m_PresetsManager;
@@ -131,5 +120,9 @@ public class SalHack
     public static UUIDManager GetUUIDManager()
     {
         return m_UUIDManager;
+    }
+
+    public static UpdateManager GetUpdateManager() {
+        return m_Updatemanager;
     }
 }

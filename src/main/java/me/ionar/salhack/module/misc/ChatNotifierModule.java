@@ -22,6 +22,9 @@ public class ChatNotifierModule extends Module
     @EventHandler
     private Listener<EventSalHackModuleEnable> OnModEnable = new Listener<>(p_Event ->
     {
+        if(p_Event.Mod.getDisplayName() == "ManualDupe")
+            return;
+
         String l_Msg = String.format("%s was enabled.",
                 ChatFormatting.GREEN + p_Event.Mod.getDisplayName() + ChatFormatting.AQUA);
 
@@ -32,6 +35,9 @@ public class ChatNotifierModule extends Module
     @EventHandler
     private Listener<EventSalHackModuleDisable> OnModDisable = new Listener<>(p_Event ->
     {
+        if(p_Event.Mod.getDisplayName() == "ManualDupe")
+            return;
+
         String l_Msg = String.format("%s was disabled.",
                 ChatFormatting.RED + p_Event.Mod.getDisplayName() + ChatFormatting.AQUA);
 

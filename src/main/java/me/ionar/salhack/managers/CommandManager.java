@@ -31,6 +31,7 @@ public class CommandManager
         Commands.add(new FontCommand());
         Commands.add(new PresetsCommand());
         Commands.add(new WaypointCommand());
+        Commands.add(new GitHubCommand());
         
         ModuleManager.Get().GetModuleList().forEach(p_Mod ->
         {

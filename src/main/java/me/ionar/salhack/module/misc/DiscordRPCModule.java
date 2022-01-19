@@ -6,6 +6,7 @@ import me.ionar.salhack.managers.ModuleManager;
 import me.ionar.salhack.module.Module;
 import me.ionar.salhack.module.Value;
 import me.ionar.salhack.module.combat.AutoCrystalRewrite;
+import me.ionar.salhack.module.combat.OldAutoCrystalRewrite;
 import me.ionar.salhack.util.entity.PlayerUtil;
 
 public class DiscordRPCModule extends Module
@@ -27,11 +28,13 @@ public class DiscordRPCModule extends Module
     }
 
     private AutoCrystalRewrite _autoCrystal = null;
+    private OldAutoCrystalRewrite  _oldAutoCrystal = null;
 
     @Override
     public void init()
     {
         _autoCrystal = (AutoCrystalRewrite)ModuleManager.Get().GetMod(AutoCrystalRewrite.class);
+        _oldAutoCrystal = (OldAutoCrystalRewrite)ModuleManager.Get().GetMod(OldAutoCrystalRewrite.class);
 
         if (isEnabled())
             DiscordManager.Get().enable();
@@ -86,13 +89,13 @@ public class DiscordRPCModule extends Module
 
         if (GitHub.getValue())
         {
-            return "The SalHack source is hosted at https://github.com/ionar2/salhack !";
+            return "The CreepyOrb924 SalHack source is hosted at https://github.com/CreepyOrb924/salhack!";
         }
 
 
         String result = "";
 
-        if (Crystalling.getValue() && _autoCrystal.isEnabled() && _autoCrystal.getTarget() != null)
+        if (Crystalling.getValue() && _autoCrystal.isEnabled() && _autoCrystal.getTarget() != null || _oldAutoCrystal.isEnabled())
             return "Crystalling " + _autoCrystal.getTarget() + " with SalHack's autocrystal!";
 
         if (Movement.getValue())

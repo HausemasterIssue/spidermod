@@ -5,12 +5,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-import java.awt.Point;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.*;
 
 public final class MathUtil
 {
+
+    private static final int bigInt = 16 * 1024;
 
     public static Vec3d interpolateEntity(Entity entity, float time)
     {
@@ -157,6 +157,11 @@ public final class MathUtil
         }
         return new BigDecimal(value).setScale(places, RoundingMode.HALF_UP).doubleValue();
     }
+
+    public static int ceil(float value) {
+        return bigInt - (int)((double)bigInt - value);
+    }
+
 
     public static float clamp(float val, float min, float max)
     {

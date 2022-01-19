@@ -56,11 +56,12 @@ public class ClickGuiScreen extends SalGuiScreen
         MenuComponents.add(new MenuComponentModList("UI", ModuleType.UI, 560, 3, "mouse", p_Colors, p_Mod));
         MenuComponents.add(new MenuComponentModList("World", ModuleType.WORLD, 670, 3, "blockimg", p_Colors, p_Mod));
      //   MenuComponents.add(new MenuComponentModList("Bot", ModuleType.BOT, 780, 3, "robotimg", p_Colors));
-        MenuComponents.add(new MenuComponentModList("Schematica", ModuleType.SCHEMATICA, 10, 203, "robotimg", p_Colors, p_Mod));
+        MenuComponents.add(new MenuComponentModList("Schematica", ModuleType.SCHEMATICA, 10, 247, "robotimg", p_Colors, p_Mod));
+        MenuComponents.add(new MenuComponentModList("Chat", ModuleType.CHAT, 120, 203, "Shield", p_Colors, p_Mod));
         
         MenuComponentPresetsList presetList = null;
         
-        MenuComponents.add(presetList = new MenuComponentPresetsList("Presets", ModuleType.SCHEMATICA, 120, 203, "robotimg", p_Colors, p_Mod));
+        MenuComponents.add(presetList = new MenuComponentPresetsList("Presets", ModuleType.SCHEMATICA, 120, 170, "robotimg", p_Colors, p_Mod));
 
         PresetsManager.Get().InitalizeGUIComponent(presetList);
         
